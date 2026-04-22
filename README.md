@@ -130,6 +130,14 @@ npm run deploy:pages
 - **有自定义域名**：绑到 Workers 即可，不需要 Pages
 - **无自定义域名**：Pages 对外提供 API，Workers 在后台跑 Cron 定时同步（服务端执行，不受墙影响）
 
+> ⚠️ **自定义域名注意事项**：
+> - SSL/TLS 加密模式必须设为 **Full**（Cloudflare Dashboard → 域名 → SSL/TLS → 概述）
+> - Cloudflare 免费 SSL 证书只覆盖**一级子域名**（`*.example.com`），不支持多级子域名（如 `a.b.example.com`）
+>   - ✅ `substore.example.com`
+>   - ❌ `substore.sub.example.com`（会导致 `ERR_CONNECTION_CLOSED`）
+>
+> 如果遇到 `ERR_CONNECTION_CLOSED`，请检查以上两点。
+
 ### 6. 连接前端
 
 打开 [Sub-Store 前端](https://sub-store.vercel.app)，后端地址填你的 Workers/Pages URL。
