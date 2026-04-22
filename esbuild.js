@@ -258,7 +258,7 @@ const nodeStubPlugin = {
     await build({
         entryPoints: [path.join(WORKERS_SRC, 'index.js')],
         bundle: true,
-        minify: false, // 生产环境设为 true
+        minify: true,
         sourcemap: true,
         platform: 'browser', // Workers 运行时
         format: 'esm',

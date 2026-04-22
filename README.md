@@ -3,7 +3,7 @@
 <img width="200" src="https://raw.githubusercontent.com/cc63/ICON/main/Sub-Store.png" alt="Sub-Store">
 <br>
 <br>
-<h2 align="center">Sub-Store Workers<h2>
+<h2 align="center">Sub-Store Workers</h2>
 </div>
 
 <p align="center" color="#6a737d">

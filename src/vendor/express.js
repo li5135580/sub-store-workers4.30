@@ -60,13 +60,7 @@ export default function express({ substore: $ }) {
 
     /** 处理请求 */
     app.handleRequest = async (request) => {
-        // CORS 预检
-        if (request.method === 'OPTIONS') {
-            return new Response(null, {
-                status: 204,
-                headers: DEFAULT_HEADERS,
-            });
-        }
+        // CORS 预检已在 index.js 外层处理，此处直接进入路由
 
         const url = new URL(request.url);
         const method = request.method.toUpperCase();

@@ -83,6 +83,10 @@ export default {
                         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
                     });
                 }
+                if (pathname === backendPath) {
+                    // 精确匹配前缀，重定向到带 / 的路径
+                    return Response.redirect(new URL(backendPath + '/', request.url).toString(), 302);
+                }
                 if (pathname.startsWith(backendPath + '/')) {
                     // 带了前缀，剥离后交给路由
                     pathname = pathname.slice(backendPath.length);
@@ -107,18 +111,26 @@ export default {
             // 路由分发
             const response = await $app.handleRequest(request);
 
-            // 回写 KV
-            ctx.waitUntil($.persistCache());
+            // 回写 KV + 确保推送完成
+            ctx.waitUntil(Promise.all([
+                $.persistCache(),
+                ...($.pendingPushes || []),
+            ]));
+            $.pendingPushes = [];
 
             return response;
         } catch (e) {
             console.error(`Unhandled error: ${e.message}\n${e.stack}`);
             // 出错也尝试回写
-            ctx.waitUntil($.persistCache());
+            ctx.waitUntil(Promise.all([
+                $.persistCache(),
+                ...($.pendingPushes || []),
+            ]));
+            $.pendingPushes = [];
             return new Response(
                 JSON.stringify({
                     status: 'failed',
-                    message: `Internal Server Error: ${e.message}`,
+                    message: 'Internal Server Error',
                 }),
                 {
                     status: 500,

@@ -177,13 +177,16 @@ export class OpenAPI {
             const url = push
                 .replace('[推送标题]', encodeURIComponent(title || 'Sub-Store'))
                 .replace('[推送内容]', encodeURIComponent([subtitle, content_].filter(Boolean).join('\n')));
-            fetch(url)
+            const pushPromise = fetch(url)
                 .then((resp) => {
                     console.log(`[Push Service] URL: ${url}\nRES: ${resp.status}`);
                 })
                 .catch((e) => {
                     console.log(`[Push Service] URL: ${url}\nERROR: ${e}`);
                 });
+            // 收集到 pendingPushes，由 ctx.waitUntil 保证完成
+            if (!this.pendingPushes) this.pendingPushes = [];
+            this.pendingPushes.push(pushPromise);
         }
     }
 
