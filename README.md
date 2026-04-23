@@ -14,6 +14,10 @@ Sub-Store 后端的 Cloudflare Workers 移植版
 <a href="https://deploy.workers.cloudflare.com/?url=https://github.com/Yu9191/sub-store-workers">
 <img src="https://deploy.workers.cloudflare.com/button" alt="Deploy to Cloudflare">
 </a>
+<br><br>
+<a href="mydocs/codemap/project-overview.md">
+<img src="https://img.shields.io/badge/📐_Architecture-Project_Overview-blue?style=flat-square" alt="Project Overview">
+</a>
 </p>
 
 > ⚠️ 一键部署仅创建 Workers，部署后仍需手动创建 KV 命名空间并绑定，详见下方[部署步骤](#部署)。
